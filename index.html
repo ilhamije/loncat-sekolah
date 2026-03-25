@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>School Jump - Chrome Dino Clone</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    <link rel="apple-touch-icon" href="assets/school.png">
+
+    <!-- Google Font for arcade aesthetic -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="main-wrapper">
+        <div id="game-container">
+            <!-- Main game area canvas -->
+            <canvas id="gameCanvas" width="800" height="250"></canvas>
+        </div>
+
+        <!-- UI overlay elements moved outside the overflow:hidden container -->
+        <div id="ui-layer">
+            <div id="score-board">
+                HI <span id="hi-score">00000</span> <span id="score">00000</span>
+            </div>
+
+            <div id="start-screen" class="welcome-screen">
+                <div class="welcome-content">
+                    <h1>SCHOOL JUMP</h1>
+                    <p class="desc">Dodge the obstacles, keep running, and don't miss the lesson!</p>
+                    <button id="start-btn">PLAY NOW</button>
+                    <p class="subtitle">Keyboard: <kbd>SPACE</kbd> or <kbd>↑</kbd> to Jump | <kbd>↓</kbd> to
+                        Duck<br><br>Mobile: Tap to Jump | Tap & Hold to Duck</p>
+                </div>
+            </div>
+
+            <div id="game-over" class="hidden">
+                <p>GAME OVER</p>
+                <p>FINAL SCORE: <span id="final-score">00000</span></p>
+                <img src="assets/school.png" alt="Dead sprite placeholder" id="dead-sprite-icon"
+                    style="display:none; margin: 10px auto;">
+                <p class="subtitle">Press Space or Tap to Restart</p>
+            </div>
+        </div>
+    </div>
+    <script src="game.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('SW registered'))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
