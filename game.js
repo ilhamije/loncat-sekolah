@@ -157,64 +157,13 @@ const player = {
 
             ctx.drawImage(currentSprite, this.x, this.y, this.width, this.height);
         } else {
-            // --- Fallback procedural drawing (Faceless Indonesian kid) ---
-            if (this.state === 'dead') {
-                ctx.save();
-                ctx.translate(this.x + this.width / 2, this.y + this.height);
-                ctx.rotate(Math.PI / 2); // Rotate lying back
-                this.renderChildProcedurally(-this.width / 2, -this.height);
-
-                // Draw 'X' eyes for death
-                ctx.fillStyle = '#000';
-                ctx.font = '8px "Press Start 2P"';
-                ctx.fillText('X X', -this.width / 2 + 5, -this.height + 15);
-                ctx.restore();
-            } else {
-                this.renderChildProcedurally(this.x, this.y);
-            }
+            // --- Minimal Silhouette Fallback (Used during loading) ---
+            ctx.fillStyle = '#7f8c8d'; // neutral silhouette
+            ctx.fillRect(this.x + 20, this.y + 10, 30, 70); // simplistic body
+            ctx.fillRect(this.x + 25, this.y, 20, 20);      // head
         }
     },
 
-    // A helper to draw the kid without sprite assets
-    renderChildProcedurally(dx, dy) {
-        // Red trousers/skirt (Seragam Merah)
-        ctx.fillStyle = '#c0392b';
-        if (this.state === 'running' || this.state === 'crawling') {
-            // Legs alternating
-            let stride = this.runFrame === 0 ? 5 : -5;
-            ctx.fillRect(dx + 5 + stride, dy + 25, 10, 15);
-            ctx.fillRect(dx + 15 - stride, dy + 25, 10, 15);
-        } else if (this.state === 'jumping') {
-            // Legs tucked
-            ctx.fillRect(dx + 8, dy + 25, 16, 10);
-        } else {
-            // Standing
-            ctx.fillRect(dx + 5, dy + 25, 22, 15);
-        }
-
-        // White shirt (Putih)
-        ctx.fillStyle = '#ecf0f1';
-        ctx.fillRect(dx + 4, dy + 10, 24, 15);
-
-        // Small Red Tie
-        ctx.fillStyle = '#c0392b';
-        ctx.beginPath();
-        ctx.moveTo(dx + 16, dy + 10);
-        ctx.lineTo(dx + 14, dy + 20);
-        ctx.lineTo(dx + 18, dy + 20);
-        ctx.fill();
-
-        // Head (Skin tone placeholder)
-        ctx.fillStyle = '#f1c40f'; // simplistic skin tone
-        ctx.fillRect(dx + 6, dy - 5, 20, 15);
-
-        // Red Cap
-        ctx.fillStyle = '#c0392b';
-        ctx.beginPath();
-        ctx.arc(dx + 16, dy - 5, 10, Math.PI, 0); // Hat top
-        ctx.fill();
-        ctx.fillRect(dx + 16, dy - 7, 12, 3);    // Hat peak
-    },
 
     update() {
         if (this.isJumping) {
@@ -590,8 +539,13 @@ window.addEventListener('keyup', (e) => {
 let touchTimer;
 let jumpTriggered = false;
 
-canvas.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Stop touch scroll
+window.addEventListener('touchstart', (e) => {
+    // Only handle touch if target is not a button (like Start button)
+    if (e.target.tagName === 'BUTTON') return;
+    
+    // Stop touch scroll
+    if (e.cancelable) e.preventDefault(); 
+    
     if (!isPlaying && !isGameOver) {
         return;
     } else if (isGameOver) {
@@ -605,11 +559,12 @@ canvas.addEventListener('touchstart', (e) => {
         if (!jumpTriggered && isPlaying) {
             player.crawl();
         }
-    }, 120);
+    }, 120); 
 }, { passive: false });
 
-canvas.addEventListener('touchend', (e) => {
-    e.preventDefault();
+window.addEventListener('touchend', (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.cancelable) e.preventDefault();
     clearTimeout(touchTimer);
 
     if (player.isCrawling) {
@@ -620,8 +575,9 @@ canvas.addEventListener('touchend', (e) => {
     }
 }, { passive: false });
 
-canvas.addEventListener('touchcancel', (e) => {
-    e.preventDefault();
+window.addEventListener('touchcancel', (e) => {
+    if (e.target.tagName === 'BUTTON') return;
+    if (e.cancelable) e.preventDefault();
     clearTimeout(touchTimer);
     if (player.isCrawling) player.stand();
 }, { passive: false });
@@ -640,8 +596,16 @@ if (startBtn) {
     }, { passive: false });
 }
 
-// Initial render to show starting frame behind the "Start" text
-ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-drawBackground();
-player.state = 'standing';
-player.draw();
+// Initial render logic: Keep checking until assets load or fallback after delay
+function initialDisplay() {
+    ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    drawBackground();
+    player.state = 'standing';
+    player.draw();
+
+    // Continue until loaded to replace silhouette with actual asset once ready
+    if (!allAssetsLoaded) {
+        requestAnimationFrame(initialDisplay);
+    }
+}
+initialDisplay();
