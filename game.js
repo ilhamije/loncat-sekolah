@@ -112,10 +112,10 @@ const player = {
     y: GROUND_LEVEL - 80, // Height is ~80px
     width: 70,
     normalWidth: 70,
-    crawlingWidth: 100,
+    crawlingWidth: 80, // Scaled to 80%
     height: 80,
     normalHeight: 80,
-    crawlingHeight: 50,
+    crawlingHeight: 40, // Scaled to 80%
     dy: 0,                // Vertical velocity
     jumpForce: -14,       // Stronger initial burst upward
     gravity: 1.1,         // Heavier pull down each frame to be snappy
@@ -518,13 +518,13 @@ function resetGame() {
 
     isPlaying = true;
     isGameOver = false;
-    
+
     // Request fullscreen on mobile/play start if supported
     const docElm = document.documentElement;
     if (docElm.requestFullscreen) {
-        docElm.requestFullscreen().catch(() => {});
+        docElm.requestFullscreen().catch(() => { });
     } else if (docElm.webkitRequestFullscreen) {
-        docElm.webkitRequestFullscreen().catch(() => {});
+        docElm.webkitRequestFullscreen().catch(() => { });
     }
 
     // Kick off loop
@@ -605,7 +605,7 @@ canvas.addEventListener('touchstart', (e) => {
         if (!jumpTriggered && isPlaying) {
             player.crawl();
         }
-    }, 120); 
+    }, 120);
 }, { passive: false });
 
 canvas.addEventListener('touchend', (e) => {
