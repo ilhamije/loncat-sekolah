@@ -133,6 +133,88 @@ canvas.blurred {
     box-shadow: none;
 }
 
+/* Style for the donation buttons */
+.pixel-btn {
+    display: inline-block;
+    background-color: #e67e22;
+    color: white;
+    font-family: 'Press Start 2P', monospace;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 4px 0px #d35400;
+    transition: all 0.1s;
+    margin-bottom: 15px;
+    border: none;
+    line-height: 1.5;
+}
+
+.pixel-btn:hover {
+    background-color: #f39c12;
+}
+
+.pixel-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0px #d35400;
+}
+
+.green-btn {
+    background-color: #27ae60;
+    box-shadow: 0 4px 0px #2ecc71;
+}
+
+.green-btn:active {
+    box-shadow: 0 2px 0px #2ecc71;
+}
+
+#game-over-btns {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+#donate-btn-start {
+    display: block;
+    width: fit-content;
+    margin: 10px auto 25px auto;
+}
+
+#coffee-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    pointer-events: auto;
+    background: rgba(44, 62, 80, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 50px;
+    border: 2px solid #e67e22;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 8px;
+    font-family: 'Press Start 2P', monospace;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#coffee-float:hover {
+    transform: scale(1.1);
+    background: rgba(52, 152, 219, 0.9);
+    border-color: #f39c12;
+}
+
+#coffee-float span {
+    font-size: 20px;
+}
+
 #game-over {
     position: absolute;
     top: 50%;

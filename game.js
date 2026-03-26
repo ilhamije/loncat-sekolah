@@ -12,6 +12,7 @@ const hiScoreElement = document.getElementById('hi-score');
 const gameOverScreen = document.getElementById('game-over');
 const startScreen = document.getElementById('start-screen');
 const startBtn = document.getElementById('start-btn');
+const restartBtn = document.getElementById('restart-btn');
 const finalScoreElement = document.getElementById('final-score');
 
 // Sound Effects
@@ -590,6 +591,20 @@ if (startBtn) {
     });
     startBtn.addEventListener('touchstart', (e) => {
         if (!isPlaying && !isGameOver) {
+            resetGame();
+        }
+        e.preventDefault();
+    }, { passive: false });
+}
+
+if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+        if (isGameOver) {
+            resetGame();
+        }
+    });
+    restartBtn.addEventListener('touchstart', (e) => {
+        if (isGameOver) {
             resetGame();
         }
         e.preventDefault();

@@ -35,6 +35,8 @@
                     <h1>SCHOOL JUMP</h1>
                     <p class="desc">Dodge the obstacles, keep running, and don't miss the lesson!</p>
                     <button id="start-btn">PLAY NOW</button>
+                    <a href="https://sociabuzz.com/ilhamije/tribe" target="_blank" id="donate-btn-start"
+                        class="pixel-btn">☕ BUY ME COFFEE</a>
                     <p class="subtitle">Keyboard: <kbd>SPACE</kbd> or <kbd>↑</kbd> to Jump | <kbd>↓</kbd> to
                         Duck<br><br>Mobile: Tap to Jump | Tap & Hold to Duck</p>
                 </div>
@@ -45,10 +47,17 @@
                 <p>FINAL SCORE: <span id="final-score">00000</span></p>
                 <img src="assets/school.png" alt="Dead sprite placeholder" id="dead-sprite-icon"
                     style="display:none; margin: 10px auto;">
+                <div id="game-over-btns">
+                    <button id="restart-btn" class="pixel-btn green-btn">PLAY</button>
+                    <a href="https://sociabuzz.com/ilhamije/tribe" target="_blank" class="pixel-btn">☕ BUY ME COFFEE</a>
+                </div>
                 <p class="subtitle">Press Space or Tap to Restart</p>
             </div>
         </div>
     </div>
+    <a href="https://sociabuzz.com/ilhamije/tribe" target="_blank" id="coffee-float">
+        <span>☕</span> BUY ME COFFEE
+    </a>
     <script src="game.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
