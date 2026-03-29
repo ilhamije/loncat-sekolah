@@ -541,12 +541,12 @@ let touchTimer;
 let jumpTriggered = false;
 
 window.addEventListener('touchstart', (e) => {
-    // Only handle touch if target is not a button (like Start button)
-    if (e.target.tagName === 'BUTTON') return;
-    
+    // Only handle touch if target is not a button or link (like Start button, donate link)
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('a')) return;
+
     // Stop touch scroll
-    if (e.cancelable) e.preventDefault(); 
-    
+    if (e.cancelable) e.preventDefault();
+
     if (!isPlaying && !isGameOver) {
         return;
     } else if (isGameOver) {
@@ -560,11 +560,11 @@ window.addEventListener('touchstart', (e) => {
         if (!jumpTriggered && isPlaying) {
             player.crawl();
         }
-    }, 120); 
+    }, 120);
 }, { passive: false });
 
 window.addEventListener('touchend', (e) => {
-    if (e.target.tagName === 'BUTTON') return;
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('a')) return;
     if (e.cancelable) e.preventDefault();
     clearTimeout(touchTimer);
 
@@ -577,7 +577,7 @@ window.addEventListener('touchend', (e) => {
 }, { passive: false });
 
 window.addEventListener('touchcancel', (e) => {
-    if (e.target.tagName === 'BUTTON') return;
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.closest('a')) return;
     if (e.cancelable) e.preventDefault();
     clearTimeout(touchTimer);
     if (player.isCrawling) player.stand();
